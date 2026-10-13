@@ -1,0 +1,18 @@
+Pour produire une animation à partir des fichiers f1.gif à f8.gif : 
+
+./makegif -d 1000 animation.gif f1.gif f2.gif f3.gif f4.gif f5.gif f6.gif f7.gif f8.gif
+
+--
+
+L'argument -d est optionnel. Dans ce cas la durée d'affichage de chaque frame est de 100ms. 
+
+./makegif animation2.gif f1.gif f2.gif f3.gif f4.gif f5.gif f6.gif f7.gif f8.gif
+
+--
+
+L'argument -d peut être placé n'importe où dans les arguments. Le chemin de l'animation à générer peut être absolu ou relatif. 
+ 
+./makegif ../animation3.gif f1.gif f2.gif f3.gif f4.gif f5.gif f6.gif f7.gif f8.gif -d 250
+
+./makegif $(pwd)/animation4.gif f1.gif f2.gif -d 500 f3.gif f4.gif f5.gif f6.gif f7.gif f8.gif 
+

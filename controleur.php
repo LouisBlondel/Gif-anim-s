@@ -16,6 +16,7 @@ if ($action = valider ("action"))
 		
 		// vérification si il y a un texte
 		$texte = valider("texte_gif");
+
 		if (!$texte)
 		{
 			rediriger("index.php", "view=Formulaire&msg=" . urlencode("Saisissez un texte."));
@@ -69,6 +70,8 @@ if ($action = valider ("action"))
 		}
 		
 		$couleur = valider("couleur");
+		//echo "couleur reçue : " . $couleur;
+		//die();
 		
 		if ($couleur != "blanc" && $couleur != "noir" && $couleur != "rouge" && $couleur != "jaune")
 		{

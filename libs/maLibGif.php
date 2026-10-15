@@ -74,7 +74,7 @@ function ajouterTexte($frame, $texte, $police, $couleur, $position_texte, $large
 	}
 	else if ($position_texte == "droite")
 	{
-		$x = ($largeur - $largeur_texte - largeur/20);
+		$x = ($largeur - $largeur_texte - $largeur/20);
 	}
 	
 	

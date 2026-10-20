@@ -27,12 +27,15 @@ function ouvrirImage($chemin)
 }
 
 // cree une frame qui contient une copie de l'image de fond
+
+
 function creerFrame($fond, $largeur, $hauteur)
 {
-	$frame = imagecreate($largeur, $hauteur);
+	$frame = imagecreatetruecolor($largeur, $hauteur);
 	imagecopyresized($frame, $fond, 0, 0, 0, 0, $largeur, $hauteur, $largeur, $hauteur);
 	return $frame;
 }
+
 
 // ajouter le texte sur la frame
 function ajouterTexte($frame, $texte, $police, $couleur, $position_texte, $largeur, $hauteur)
@@ -188,7 +191,7 @@ function genererGif($chemin_fond, $texte, $logo, $police, $couleur, $position_te
 	
 	//afficher
 	if ($codeRetour == 0){
-		return $id . ".gif";
+		return $id;
 	}
 	else{
 		return false;
@@ -204,7 +207,11 @@ function listerLogos()
 	
 	while($nom = readdir($fp))
 	{
-		$logos[] = $nom;
+		//$logos[] = $nom;
+		if ($nom != "." && $nom != "..") 
+		{
+			$logos[] = $nom;
+		}
 	}
 	closedir($fp);
 	return $logos;
@@ -218,7 +225,10 @@ function listerPolices()
 	
 	while ($nom = readdir($fp))
 	{
-		$polices[] = $nom;
+		//$polices[] = $nom;
+		if ($nom != "." && $nom != "..") {
+			$polices[] = $nom;
+		}
 	}
 	closedir($fp);
 	return $polices;
@@ -266,4 +276,9 @@ function extensionImage($chemin)
 	}
 	return false;
 }
+
+
+
+
+
 ?>

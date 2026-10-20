@@ -5,14 +5,18 @@ Fichier : controleur.php
 
 */
 
+session_start();
+
 include_once "libs/maLibUtils.php";
 include_once "libs/maLibGif.php";
+include_once "libs/modele.php";
+include_once "libs/maLibSecurisation.php";
 
 if ($action = valider ("action"))
 {
 	switch ($action)
 	{
-		case 'Generer':
+		case 'Générer':
 		
 		// vérification si il y a un texte
 		$texte = valider("texte_gif");
@@ -23,22 +27,28 @@ if ($action = valider ("action"))
 		}
 		
 		//vérification si il y a une image de fond
-		if (!isset($_FILES["image_fond"]) || !is_uploaded_file($_FILES["image_fond"]["tmp_name"]))
+		if (isset($_FILES["image_fond"]) && is_uploaded_file($_FILES["image_fond"]["tmp_name"]))
 		{
-			rediriger("index.php", "view=Formulaire&msg=". urlencode("Choisissez une image de fond."));
+			// vérification de l'extension
+			$extension = extensionImage($_FILES["image_fond"]["tmp_name"]);
+			if (!$extension)
+			{
+				rediriger("index.php", "view=Formulaire&msg=" . urlencode("L'image n'est pas du bon type"));
+			}
+			// si ok alors on met l'image dans le dossier uploads
+			$fichier = "image_fond" . uniqid() . "." . $extension;
+			copy($_FILES["image_fond"]["tmp_name"], "uploads/" . $fichier);
 		}
-		
-		// vérification de l'extension
-		$extension = extensionImage($_FILES["image_fond"]["tmp_name"]);
-		if(!$extension)
+		else
 		{
-			rediriger("index.php", "view=Formulaire&msg=" . urlencode("L'image n'est pas du bon type"));
+						// pas de nouvelle image : on prend celle du projet repris (s'il appartient bien a l'utilisateur)
+			$projet_repris = chargerProjet($projet, utilisateurCourant());
+			$fichier = parametre($projet_repris, "fond", "");
+			if ($fichier == "" || !file_exists("uploads/" . $fichier))
+			{
+				rediriger("index.php", "view=Formulaire&msg=" . urlencode("Choisissez une image de fond."));
+			}
 		}
-		
-		// si ok alors on met l'image dans le dossier uploads
-		$fichier = "image_fond" . uniqid() . "." . "$extension";
-		copy($_FILES["image_fond"]["tmp_name"], "uploads/" . $fichier);
-		
 		// pour le logo
 		$logo = false;
 		
@@ -119,8 +129,13 @@ if ($action = valider ("action"))
 		{
 			rediriger("index.php", "view=Formulaire&msg=" . urlencode("La génération a échoué."));
 		}
+		
+		// sauvegarde du projet dans la base : même identifiant que le GIF, rattache a l'utilisateur
+		$nom_projet = getValue("nom_projet", "Sans titre");
+		enregistrerProjet($resultat, utilisateurCourant(), $nom_projet, $texte, $fichier, $logo, $police, $couleur, $position_texte, $position_logo, "coup", "aucun", 0, 0, 3, 100);
+
 		// si on a bien genere le gif :
-		rediriger("index.php", "view=Formulaire&gif=" . $resultat . "&msg=" .urlencode("GIF généré."));
+		rediriger("index.php", "view=Gif&id=" . $resultat);
 		break;
 		
 		

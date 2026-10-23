@@ -4,30 +4,29 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php") {
 	die("");
 }
 ?>
-<div class="container form-container">
-    <h1 class="text-center">Se connecter</h1>
+<div>
+    <h1>Se connecter</h1>
 
     <?php 
     if ($msg = valider("msg")) { 
-        echo "<div class=\"msg-box\"><strong>$msg</strong></div>"; 
+        echo "<p><strong>$msg</strong></p>"; 
     } 
 
     mkForm("controleur.php", "POST");
-    
-    mkInput("hidden", "action", "Connexion");
-    
-    echo "<div class=\"form-group\">\n<label>Pseudo : </label>";
-    mkInput("text", "pseudo");
-    echo "</div>\n";
-    
-    echo "<div class=\"form-group\">\n<label>Mot de passe : </label>";
-    mkInput("password", "passe");
-    echo "</div>\n";
-    
-    mkInput("submit", "bouton_connexion", "Connexion", "class=\"btn btn-full\"");
-    
+        mkInput("hidden", "action", "Connexion");
+        
+        echo "<label>Pseudo : ";
+        mkInput("text", "pseudo");
+        echo "</label><br><br>\n";
+        
+        echo "<label>Mot de passe : ";
+        mkInput("password", "passe");
+        echo "</label><br><br>\n";
+        
+        mkInput("submit", "bouton_connexion", "Connexion");
     endForm();
     ?>
     
-    <p class="text-center mt-20">Pas encore de compte ? <?php mkLien("index.php", "S'inscrire ici", "view=Inscription"); ?>.</p>
+    <br />
+    <p>Pas encore de compte ? <?php mkLien("index.php", "S'inscrire ici", "view=Inscription"); ?>.</p>
 </div>

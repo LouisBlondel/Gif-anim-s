@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Générateur de GIF Animés</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<h1>Générateur de GIF Animés</h1>
 <body>
-    <div id="header">
-        <h1>Générateur de GIF Animés</h1>
         <h2>GIF Maker - IG2I</h2>
-        <div id="nav">
+        <div>
             <?php
             mkLien("index.php", "Accueil", "view=Accueil");
             echo " | ";
@@ -28,7 +20,4 @@
             }
             ?>
         </div>
-    </div>
-    
-    <!-- Début du contenu principal qui sera fermé dans footer.php -->
-    <div id="main-content">
+        <hr>
